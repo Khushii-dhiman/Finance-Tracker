@@ -1,0 +1,134 @@
+{% extends "finance/base.html" %}
+{% block title %}Add Transaction{% endblock %}
+
+{% block content %}
+<!-- Gradient background -->
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1f1c2c] via-[#2e2a47] to-[#4b3f72] px-4 py-12">
+  <!-- Glass effect card -->
+  <div class="max-w-md w-full bg-white/10 backdrop-blur-lg border border-white/20 p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]">
+
+    <div class="text-center mb-6">
+      <h1 class="text-3xl font-bold text-purple-300 tracking-wide">Add New Transaction</h1>
+      <p class="mt-2 text-sm text-gray-300">Record your income or expense</p>
+    </div>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      <div class="space-y-5">
+
+        <!-- Title -->
+        <div>
+          <label for="title" class="block text-sm font-semibold text-gray-200 mb-1">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            maxlength="100"
+            required
+            class="w-full px-4 py-3 bg-white/10 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-gray-400"
+            placeholder="Enter transaction title (e.g., Salary, Rent)"
+          />
+          {% if form.title.errors %}
+          {% for error in form.title.errors %}
+          <p class="mt-1 text-sm text-red-400">{{ error }}</p>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Amount -->
+        <div>
+          <label for="amount" class="block text-sm font-semibold text-gray-200 mb-1">Amount</label>
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            step="0.01"
+            min="0.01"
+            required
+            class="w-full px-4 py-3 bg-white/10 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-gray-400"
+            placeholder="Enter amount (e.g., 100.50)"
+          />
+          {% if form.amount.errors %}
+          {% for error in form.amount.errors %}
+          <p class="mt-1 text-sm text-red-400">{{ error }}</p>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Transaction Type -->
+        <div>
+          <label for="transaction_type" class="block text-sm font-semibold text-gray-200 mb-1">Type</label>
+          <select
+            name="transaction_type"
+            id="transaction_type"
+            required
+            class="w-full px-4 py-3 bg-white/10 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+          >
+            <option value="" disabled selected>Select Transaction Type</option>
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+          </select>
+          {% if form.transaction_type.errors %}
+          {% for error in form.transaction_type.errors %}
+          <p class="mt-1 text-sm text-red-400">{{ error }}</p>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Date -->
+        <div>
+          <label for="date" class="block text-sm font-semibold text-gray-200 mb-1">Date</label>
+          <input
+            type="date"
+            name="date"
+            id="date"
+            required
+            max="{% now 'Y-m-d' %}"
+            class="w-full px-4 py-3 bg-white/10 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+          />
+          {% if form.date.errors %}
+          {% for error in form.date.errors %}
+          <p class="mt-1 text-sm text-red-400">{{ error }}</p>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Category -->
+        <div>
+          <label for="category" class="block text-sm font-semibold text-gray-200 mb-1">Category</label>
+          <input
+            type="text"
+            name="category"
+            id="category"
+            maxlength="50"
+            required
+            class="w-full px-4 py-3 bg-white/10 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-gray-400"
+            placeholder="Enter Category (e.g., Food, Rent)"
+          />
+          {% if form.category.errors %}
+          {% for error in form.category.errors %}
+          <p class="mt-1 text-sm text-red-400">{{ error }}</p>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button
+            type="submit"
+            class="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 hover:scale-105 text-white font-semibold transition duration-300 shadow-lg"
+          >
+            Add Transaction
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="text-center mt-4">
+      <a href="{% url 'dashboard' %}" class="text-sm text-purple-300 hover:text-pink-400 transition">
+        ← Back to Dashboard
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "finance/base.html" %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1a1a2e] via-[#2a1f3d] to-[#41295a] px-4 py-12">
+
+  <div class="max-w-md w-full bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 hover:shadow-purple-500/20 transition-all duration-300">
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-lg">
+        Finance Tracker
+      </h2>
+      <p class="mt-2 text-sm text-gray-300">Please sign in to your account</p>
+    </div>
+
+    <!-- Login Form -->
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      <div class="space-y-5">
+
+        <!-- Username -->
+        <div>
+          <label for="id_username" class="block text-gray-300 font-semibold mb-2">Username</label>
+          <input
+            type="text"
+            id="id_username"
+            name="username"
+            class="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="id_password" class="block text-gray-300 font-semibold mb-2">Password</label>
+          <input
+            type="password"
+            id="id_password"
+            name="password"
+            class="w-full p-3 rounded-lg bg-white/10 border border-white/20 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Error Display -->
+      {% if form.non_field_errors %}
+      <div class="text-red-400 text-sm mt-2">
+        {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Login Button -->
+      <div>
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-pink-600 hover:to-purple-500 text-white font-semibold py-3 rounded-lg shadow-lg shadow-purple-500/30 transition duration-300 transform hover:scale-105">
+          Sign In
+        </button>
+      </div>
+    </form>
+
+    <!-- Links -->
+    <div class="text-center mt-6 space-y-3">
+      <p class="text-sm text-gray-300">
+        Don’t have an account?
+        <a href="{% url 'register' %}" class="text-purple-400 font-semibold hover:text-pink-400 transition">
+          Register here
+        </a>
+      </p>
+      <p class="text-sm">
+        <a href="{% url 'password_reset' %}" class="text-purple-400 hover:text-pink-400 font-medium transition">
+          Forgot Password?
+        </a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}

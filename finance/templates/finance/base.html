@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-br from-[#1a1a2e] via-[#2a1f3d] to-[#41295a] text-gray-100">
+
+   <nav class="bg-gray-900/90 backdrop-blur-lg border-b border-gray-700 shadow-md p-4 flex items-center justify-between text-white">
+  <div class="flex items-center space-x-6">
+    <a href="{% url 'dashboard' %}" class="text-lg font-semibold hover:text-pink-400 transition">Dashboard</a>
+    <a href="{% url 'transaction_add' %}" class="text-lg font-semibold hover:text-pink-400 transition">Add Transaction</a>
+    <a href="{% url 'transaction_list' %}" class="text-lg font-semibold hover:text-pink-400 transition">Transactions</a>
+    <a href="{% url 'goal_add' %}" class="text-lg font-semibold hover:text-pink-400 transition">Add Goal</a>
+  </div>
+
+  <div class="flex items-center space-x-4">
+    {% if user.is_authenticated %}
+    <form id="logout-form" action="{% url 'logout' %}" method="POST" class="inline">
+      {% csrf_token %}
+      <button type="submit"
+        class="text-lg font-semibold bg-gradient-to-r from-pink-500 via-purple-500 to-violet-500 px-4 py-1 rounded-lg hover:scale-105 transform transition shadow-md">
+        Logout
+      </button>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}" class="text-lg font-semibold hover:text-pink-400 transition">Login</a>
+    <a href="{% url 'register' %}" class="text-lg font-semibold hover:text-pink-400 transition">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+
+    <!-- 🧾 Main Content -->
+    <main class="p-6">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- 💬 Message Alerts -->
+    {% if messages %}
+      <div id="message-container" class="fixed top-5 left-1/2 transform -translate-x-1/2 w-96 z-50">
+        {% for message in messages %}
+          <div class="p-4 mb-3 rounded-lg shadow-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center animate-fade-in">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- 🕓 Fade-out Message Script -->
+    <script>
+      setTimeout(function(){
+        let messageContainer = document.getElementById('message-container');
+        if(messageContainer) {
+          messageContainer.style.transition = "opacity 0.5s ease-out";
+          messageContainer.style.opacity = "0";
+          setTimeout(() => messageContainer.remove(), 500);
+        }
+      }, 4000);
+    </script>
+  </body>
+</html>
